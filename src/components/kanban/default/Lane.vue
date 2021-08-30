@@ -13,7 +13,18 @@ export default defineComponent({
 </script>
 
 <template>
-    <div>
-        <slot />
+    <div class="kanban-lane default-kanban-lane">
+        <div class="kanban-lane-wrapper">
+            <slot />
+        </div>
     </div>
 </template>
+
+<style lang="stylus" scoped>
+.default-kanban-lane
+    background-color #EAEAEA
+    border-radius 7px
+
+.kanban-lane-wrapper
+    margin 7px
+</style>

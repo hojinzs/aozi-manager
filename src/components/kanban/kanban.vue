@@ -3,6 +3,7 @@ import {defineComponent, PropType, ref} from "vue";
 import draggable from 'vuedraggable'
 import KanbanLane from "./default/Lane.vue";
 import KanbanBoard from "./default/Board.vue";
+import KanbanCard from "./default/Card.vue";
 
 interface Issue {
     id: number,
@@ -32,6 +33,7 @@ export default defineComponent({
     components: {
         KanbanBoard,
         KanbanLane,
+        KanbanCard,
         draggable,
     },
     setup(props) {
@@ -64,7 +66,7 @@ export default defineComponent({
 
 <template>
 
-    <kanban-board name="'test'"
+    <kanban-board name="Test"
                   class="kanban-board"
     >
 
@@ -81,7 +83,8 @@ export default defineComponent({
                 item-key="id">
 
                 <template #item="{element}">
-                    <div>{{element.name}}</div>
+                    <kanban-card :name="element.name"
+                    />
                 </template>
 
             </draggable>
@@ -95,8 +98,4 @@ export default defineComponent({
 <style lang="stylus" scoped>
 .kanban-board
     display block
-
-.kanban-lane
-    display inline-block
-
 </style>

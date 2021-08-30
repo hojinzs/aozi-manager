@@ -11,14 +11,29 @@ export default defineComponent({
 </script>
 
 <template>
-
-    <div>
-        <h1>{{ name }}</h1>
-        <slot></slot>
+    <div class="board">
+        <div class="board-title">
+            {{ name }}
+        </div>
+        <div class="lanes">
+            <div class="lanes-wrapper">
+                <slot></slot>
+            </div>
+        </div>
     </div>
 
 </template>
 
-<style scoped>
+<style lang="stylus">
+.board
+    display flex
+    flex-direction columns 
+    height 100%
+    .board-title
+        flex 1 0 0
+    .lanes
+        flex 1
+        .lanes-wrapper
+            display flex
 
 </style>

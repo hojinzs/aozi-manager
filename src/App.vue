@@ -1,12 +1,21 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import Kanban from "./components/kanban/kanban.vue";
+
+const data = [
+    {id: 1, name: "foo", groupId: 1},
+    {id: 1, name: "bar", groupId: 2},
+]
+
+const lane = [
+    {id: 1, name: '첫번째 열'},
+    {id: 2, name: '두번째 열'},
+]
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <kanban :issues="data"
+          :lanes="lane"
+  />
 </template>
 
 <style>

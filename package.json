@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "electron-reload": "*",
-    "vue": "^3.2.6"
+    "vue": "^3.2.6",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.6.0",

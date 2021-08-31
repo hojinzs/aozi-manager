@@ -2,12 +2,14 @@
 import { defineComponent } from 'vue'
 import Kanban from "./components/kanban/kanban.vue";
 import LayoutTwoColumnSeparation from "./components/layouts/TwoColumnSeparation.vue"
+import LocalNavigation from './views/nav.vue';
 
 
 export default defineComponent({
     components: {
         Kanban,
         LayoutTwoColumnSeparation,
+        LocalNavigation,
     }
 })
 </script>
@@ -16,7 +18,7 @@ export default defineComponent({
     <layout-two-column-separation>
 
         <template #nav>
-            NAVIGATION GNB
+            <local-navigation />
         </template>
 
         <router-view />

@@ -8,7 +8,8 @@ export default defineComponent({
     },
     name: "Kanban",
     setup() {
-        const data = [
+        
+        const issues = [
             {id: 1, name: "foo", groupId: 1},
             {id: 2, name: "bar", groupId: 1},
             {id: 3, name: "poa", groupId: 2},
@@ -31,7 +32,7 @@ export default defineComponent({
         ]
 
         return {
-            data,
+            issues,
             lane
         }
     },
@@ -39,7 +40,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <kanban-board :issues="data"
+    <kanban-board :issues="issues"
                   :lanes="lane"
     />
 </template>

@@ -1,5 +1,5 @@
 <script lang="ts">
-import {Component, defineComponent, PropType, ref} from "vue";
+import { defineComponent, PropType, ref } from "vue";
 import draggable from 'vuedraggable'
 
 import "../../theme/kanban.stylus"
@@ -8,11 +8,14 @@ interface Issue {
     id: number,
     name: string,
     groupId?: number
+    sortNum?: number
 }
 
 interface Lane {
     id: number,
     name: string,
+    items?: Issue[]
+    sortNum?: number
 }
 
 export default defineComponent({
@@ -22,11 +25,19 @@ export default defineComponent({
             type: Array as PropType<Issue[]>,
             default: [],
         },
+        laneProp: {
+            type: String,
+            default: "groupId"
+        },
         lanes: {
             type: Array as PropType<Lane[]>,
             default: [
                 {id: 1, name: '기본 열'},
             ]
+        },
+        kanbanName: {
+            type: String,
+            default: "칸반 보드"
         },
         boardComponent: {
             type: String
@@ -50,9 +61,7 @@ export default defineComponent({
     setup(props) {
         const drag = ref<boolean>(false)
 
-        const getGroupList = (id: number) => {
-            return props.issues.filter(i => i.groupId === id)
-        }
+        const kanbanLanes = ref<Lane[]>([])
 
         const dragStartHandler = (e: any) => {
             drag.value = true
@@ -62,13 +71,23 @@ export default defineComponent({
         const dragEndHandler = (e: any) => {
             drag.value = false
             console.log("end handler => ", e)
+            console.log("event item => ", e.to.dataset.laneId, e.from.dataset.laneId, e.item.issueId)
         }
+
+        const refreshData = () => {
+            kanbanLanes.value = props.lanes.map(lane => {
+                lane.items = props.issues.filter((i: any) => i[props.laneProp] === lane.id)
+                return lane
+            })
+        }
+
+        refreshData()
 
         return {
             drag,
+            kanbanLanes,
             dragStartHandler,
             dragEndHandler,
-            getGroupList,
         }
     }
 })
@@ -79,11 +98,11 @@ export default defineComponent({
 
     <component :is="boardComponent ?? 'default-kanban-board'"
                class="kanban-board"
-               name="Test"
+               :name="kanbanName"
     >
     
         <draggable class="kanban-lanes-wrapper"
-                   :list="lanes"
+                   :list="kanbanLanes"
                    handle=".kanban-header"
                    group="lane"
                    item-key="id"
@@ -92,7 +111,7 @@ export default defineComponent({
             <template #item="lane">
 
                 <component :is="laneComponent ?? 'default-kanban-lane'"
-                        class="kanban-lane">
+                           class="kanban-lane">
 
                     <template #header>
                         <component :is="'default-kanban-header'"
@@ -103,16 +122,19 @@ export default defineComponent({
 
                     <template #default>
                         <draggable class="kanban-content"
-                                    group="issues"
-                                    :list="getGroupList(lane.element.id)"
-                                    @start="dragStartHandler"
-                                    @end="dragEndHandler"
-                                    item-key="id">
+                                   group="issues"
+                                   :list="lane.element.items"
+                                   @start="dragStartHandler"
+                                   @end="dragEndHandler"
+                                   item-key="id"
+                                   :component-data="{'data-lane-id': lane.element.id}"                   
+                                   >
 
                             <template #item="{element}">
                                 <component :is="cardComponent ?? 'default-kanban-card'"
-                                        class="kanban-card"
-                                        :name="element.name"
+                                           class="kanban-card"
+                                           :name="element.name"
+                                           :data-issue-id="element.id"                                                 
                                 />
                             </template>
                                     
@@ -121,7 +143,7 @@ export default defineComponent({
                     
                     <template #footer>
                         <component :is="footerComponent ?? 'default-kanban-footer'"
-                                class="kanban-footer"
+                                   class="kanban-footer"
                         />
                     </template>                    
 

@@ -1,9 +1,8 @@
 <script lang="ts">
-import {defineComponent, PropType, ref} from "vue";
+import {Component, defineComponent, PropType, ref} from "vue";
 import draggable from 'vuedraggable'
-import KanbanLane from "./default/Lane.vue";
-import KanbanBoard from "./default/Board.vue";
-import KanbanCard from "./default/Card.vue";
+
+import "../../theme/kanban.stylus"
 
 interface Issue {
     id: number,
@@ -28,19 +27,31 @@ export default defineComponent({
             default: [
                 {id: 1, name: '기본 열'},
             ]
-        }
+        },
+        boardComponent: {
+            type: String
+        },
+        laneComponent: {
+            type: String
+        },
+        cardComponent: {
+            type: String
+        },
+        headerComponent: {
+            type: String
+        },
+        footerComponent: {
+            type: String
+        }                                
     },
     components: {
-        KanbanBoard,
-        KanbanLane,
-        KanbanCard,
         draggable,
     },
     setup(props) {
         const drag = ref<boolean>(false)
 
         const getGroupList = (id: number) => {
-            return props.issues.filter(i => i.groupId ?? i.groupId === id)
+            return props.issues.filter(i => i.groupId === id)
         }
 
         const dragStartHandler = (e: any) => {
@@ -66,36 +77,64 @@ export default defineComponent({
 
 <template>
 
-    <kanban-board name="Test"
-                  class="kanban-board"
+    <component :is="boardComponent ?? 'default-kanban-board'"
+               class="kanban-board"
+               name="Test"
     >
-
-        <kanban-lane v-for="lane in lanes"
-                     :key="lane.id"
-                     class="kanban-lane"
+    
+        <draggable class="kanban-lanes-wrapper"
+                   :list="lanes"
+                   handle=".kanban-header"
+                   group="lane"
+                   item-key="id"
         >
 
-            <draggable
-                :list="getGroupList(lane.id)"
-                group="people"
-                @start="dragStartHandler"
-                @end="dragEndHandler"
-                item-key="id">
+            <template #item="lane">
 
-                <template #item="{element}">
-                    <kanban-card :name="element.name"
-                    />
-                </template>
+                <component :is="laneComponent ?? 'default-kanban-lane'"
+                        class="kanban-lane">
 
-            </draggable>
+                    <template #header>
+                        <component :is="'default-kanban-header'"
+                                class="kanban-header"
+                                :title="lane.element.name"
+                        />
+                    </template>
 
-        </kanban-lane>
+                    <template #default>
+                        <draggable class="kanban-content"
+                                    group="issues"
+                                    :list="getGroupList(lane.element.id)"
+                                    @start="dragStartHandler"
+                                    @end="dragEndHandler"
+                                    item-key="id">
 
-    </kanban-board>
+                            <template #item="{element}">
+                                <component :is="cardComponent ?? 'default-kanban-card'"
+                                        class="kanban-card"
+                                        :name="element.name"
+                                />
+                            </template>
+                                    
+                        </draggable>                     
+                    </template>             
+                    
+                    <template #footer>
+                        <component :is="footerComponent ?? 'default-kanban-footer'"
+                                class="kanban-footer"
+                        />
+                    </template>                    
+
+                </component>
+
+            </template>
+
+        </draggable>
+
+    </component>
 
 </template>
 
 <style lang="stylus" scoped>
-.kanban-board
-    display block
+
 </style>

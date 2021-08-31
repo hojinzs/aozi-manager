@@ -15,18 +15,16 @@ export default defineComponent({
 </script>
 
 <template>
-    <div class="kanban-card default-kanban-card">
+    <div class="default-kanban-card">
         <h4>{{name}}</h4>
     </div>
 </template>
 
 <style lang="stylus" scoped>
-.kanban-card
-    width 200px
-
 .default-kanban-card
+    margin 8px
+    box-shadow 3px 3px 8px #cfcfcf    
     padding 7px
     background-color #C0C0C0
     border-radius 7px
-
 </style>

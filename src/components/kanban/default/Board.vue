@@ -7,33 +7,19 @@ export default defineComponent({
         name: String,
     },
 })
-
 </script>
 
 <template>
     <div class="board">
-        <div class="board-title">
+        <div class="board-header">
             {{ name }}
         </div>
-        <div class="lanes">
-            <div class="lanes-wrapper">
-                <slot></slot>
-            </div>
+        <div class="board-lanes">
+            <slot />
         </div>
     </div>
-
 </template>
 
-<style lang="stylus">
-.board
-    display flex
-    flex-direction columns 
-    height 100%
-    .board-title
-        flex 1 0 0
-    .lanes
-        flex 1
-        .lanes-wrapper
-            display flex
+<style lang="stylus" scoped>
 
 </style>

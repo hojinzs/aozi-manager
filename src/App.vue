@@ -1,23 +1,26 @@
-<script setup lang="ts">
+<script lang="ts">
+import { defineComponent } from 'vue'
 import Kanban from "./components/kanban/kanban.vue";
+import LayoutTwoColumnSeparation from "./components/layouts/TwoColumnSeparation.vue"
 
-const data = [
-    {id: 1, name: "foo", groupId: 1},
-    {id: 2, name: "bar", groupId: 1},
-    {id: 3, name: "poa", groupId: 2},
 
-]
-
-const lane = [
-    {id: 1, name: '첫번째 열'},
-    {id: 2, name: '두번째 열'},
-]
+export default defineComponent({
+    components: {
+        Kanban,
+        LayoutTwoColumnSeparation,
+    }
+})
 </script>
 
 <template>
-  <kanban :issues="data"
-          :lanes="lane"
-  />
+    <layout-two-column-separation>
+
+        <template #nav>
+            NAVIGATION GNB
+        </template>
+
+        <router-view />
+    </layout-two-column-separation>
 </template>
 
 <style lang="stylus">

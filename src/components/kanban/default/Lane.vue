@@ -13,18 +13,24 @@ export default defineComponent({
 </script>
 
 <template>
-    <div class="kanban-lane default-kanban-lane">
-        <div class="kanban-lane-wrapper">
+    <div class="lane">
+        <div class="lane-header">
+            <slot name="header" />
+        </div>
+        <div class="lane-content">
             <slot />
+        </div>
+        <div class="lane-footer">
+            <slot name="footer" />
         </div>
     </div>
 </template>
 
 <style lang="stylus" scoped>
-.default-kanban-lane
+.lane
+    margin 8px
     background-color #EAEAEA
+    box-shadow 3px 3px 8px #e8e8e8
     border-radius 7px
-
-.kanban-lane-wrapper
-    margin 7px
+    position relative
 </style>

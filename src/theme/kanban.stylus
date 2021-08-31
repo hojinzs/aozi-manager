@@ -1,0 +1,40 @@
+.kanban-board
+    overflow hidden
+    display flex
+    flex-direction column 
+    height 100%
+    .board-title
+        flex 0 0 0
+    .board-lanes
+        flex 1 1 0
+        overflow hidden
+        overflow-x scroll
+        .kanban-lanes-wrapper
+            height 100%
+            display flex
+            .lane
+                display flex
+                flex-direction column
+                .lane-header
+                    flex 0 0 0
+                .lane-content
+                    flex 1 1 0
+                    overflow-y scroll
+                    .kanban-content
+                        min-height 90%
+                .lane-footer
+                    flex 0 0 0
+
+.kanban-card, .kanban-header
+    cursor pointer
+
+.board-lanes::-webkit-scrollbar,
+.lane-content::-webkit-scrollbar
+    width 8px
+    height 8px
+    // background-color red
+    &-track
+        // -webkit-box-shadow inset 0 0 2px rgba(255,0,0,1)
+    &-thumb
+        background-color rgba(0,0,0, 0.25)
+        border-radius 8px
